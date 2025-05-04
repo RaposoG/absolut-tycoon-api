@@ -1,7 +1,7 @@
 {
-  "name": "fastify-stater",
-  "version": "0.0.0",
-  "description": "Uma configuração simples e poderosa para criar APIs com **Fastify**, **TypeScript**, **CORS**, **Token Auth**, **Env Config**, **Swagger**, **ZodTypeProvider** e Prisma para validação de tipos. Ideal para você começar rápido e fácil com o desenvolvimento de APIs escaláveis e seguras.",
+  "name": "absolut-tycoon-api",
+  "version": "0.0.1",
+  "description": "The API for the Absolut Tycoon game, built with Fastify and Prisma.",
   "main": "index.js",
   "scripts": {
     "dev": "tsx watch src/server.ts",
