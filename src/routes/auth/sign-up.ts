@@ -3,11 +3,10 @@ import { ZodTypeProvider } from "fastify-type-provider-zod";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { hash } from "bcryptjs";
-import { BadRequestError } from "../_errors/bad-request-error";
 
-export async function createAccount(app: FastifyInstance) {
+export async function SignUp(app: FastifyInstance) {
   app.withTypeProvider<ZodTypeProvider>().post(
-    "/auth/create-account",
+    "/auth/sign-up",
     {
       schema: {
         tags: ["Auth"],
@@ -19,6 +18,10 @@ export async function createAccount(app: FastifyInstance) {
         }),
         response: {
           201: z.null(),
+          400: z.object({
+            error: z.string(),
+            message: z.string(),
+          }),
         },
       },
     },
@@ -30,7 +33,10 @@ export async function createAccount(app: FastifyInstance) {
       });
 
       if (userWithSameEmail) {
-        throw new BadRequestError("User with this email already exists");
+        return reply.status(400).send({
+          error: "Bad Request",
+          message: "User already exists",
+        });
       }
 
       const passwordHash = await hash(password, 6);
