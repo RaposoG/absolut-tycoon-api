@@ -1,42 +1,112 @@
-# 🚀 **FastifyStater + Typescript**
+# Absolut Tycoon API
 
-Uma configuração simples e poderosa para criar APIs com **Fastify**, **TypeScript**, **CORS**, **Token Auth**, **Env Config**, **Swagger**, **ZodTypeProvider** e **Prisma**. Ideal para você começar rápido e fácil com o desenvolvimento de APIs escaláveis e seguras.
+## Descrição
 
----
+Esta é a API back-end para o jogo Absolut Tycoon. Inspirado em jogos de estratégia e gerenciamento online como OGame, o Absolut Tycoon será um jogo 100% online onde os jogadores precisarão se autenticar para interagir com o universo do jogo. A API é responsável por gerenciar a lógica do jogo, dados dos jogadores, autenticação e interações.
 
-## 🌟 **Features**
+## Funcionalidades Principais (Planejadas)
 
-- **Fastify**: Framework minimalista e super rápido para Node.js.
-- **TypeScript**: Aproveite todos os benefícios de tipagem estática para um desenvolvimento mais robusto.
-- **CORS**: Suporte integrado a CORS para permitir que sua API seja acessível de diferentes origens.
-- **Token Auth**: Autenticação simples com tokens JWT para garantir segurança.
-- **Env Config**: Variáveis de ambiente facilmente configuráveis para diferentes ambientes (desenvolvimento, produção, etc.).
-- **Swagger UI**: Documentação automática da API usando o Swagger, facilitando o uso e integração da sua API.
-- **ZodTypeProvider**: Validação e tipagem de dados com a poderosa biblioteca Zod, garantindo que seus dados estejam sempre corretos.
-- **Prisma**: ORM poderoso para interagir facilmente com bancos de dados relacionais.
+*   **Autenticação de Usuários:** Sistema seguro de registro e login usando JWT (JSON Web Tokens).
+*   **Gerenciamento de Recursos:** Lógica para acúmulo, gasto e troca de recursos no jogo.
+*   **Construção e Evolução:** Sistema para construção de edifícios, pesquisa de tecnologias e desenvolvimento de frotas/unidades.
+*   **Interações entre Jogadores:** Funcionalidades para combate, comércio, alianças, etc. (a definir).
+*   **Persistência de Dados:** Utilização do Prisma ORM para salvar e gerenciar o estado do jogo e dos jogadores em um banco de dados.
 
----
+## Tecnologias Utilizadas
 
-## ⚡ **Como Começar**
+*   **Framework:** Fastify (Node.js)
+*   **Linguagem:** TypeScript
+*   **Banco de Dados:** (Definido pelo Prisma - ex: PostgreSQL, MySQL, SQLite)
+*   **ORM:** Prisma
+*   **Validação:** Zod
+*   **Autenticação:** `@fastify/jwt`
+*   **Documentação da API:** `@fastify/swagger`, `@fastify/swagger-ui`
+*   **Variáveis de Ambiente:** `dotenv`, Zod para validação
+*   **Build:** tsup
+*   **Desenvolvimento:** tsx (para hot-reloading)
 
-1. **Clone o repositório:**
+## Estrutura do Projeto
 
-```bash
-git clone https://github.com/RaposoG/FastifyStater
-cd FastifyStater
+```
+src/
+├── @types/         # Definições de tipos globais (ex: extensões do Fastify)
+│   └── fastify.d.ts
+├── env/            # Configuração e validação das variáveis de ambiente
+│   └── index.ts
+├── lib/            # Módulos reutilizáveis (ex: instância do Prisma)
+│   └── prisma.ts
+├── middlewares/    # Middlewares da aplicação (ex: verificação de autenticação)
+│   └── auth.ts
+├── routes/         # Definição das rotas da API
+│   ├── _errors/    # (Potencialmente para erros específicos das rotas)
+│   └── auth/       # Rotas relacionadas à autenticação (signup, signin)
+│       ├── index.ts
+│       ├── auth.ts
+│       ├── sign-in.ts
+│       └── sign-up.ts
+│   └── ...         # Outras rotas do jogo (ex: /planets, /buildings, /fleet)
+├── error-handler.ts # Handler global de erros
+└── server.ts       # Ponto de entrada da aplicação, configuração do Fastify e inicialização
 ```
 
-2. **Iniciar o projeto**
+## Pré-requisitos
 
-- Remova .exemple de .env.exemple e configure as variáveis, por padrão recomendo a port 3434
+*   Node.js (versão recomendada no `.nvmrc` ou a mais recente LTS)
+*   pnpm (ou npm/yarn)
+*   Um banco de dados suportado pelo Prisma (ex: PostgreSQL) rodando.
 
-```bash
-npm i
-docker-compose up -d
-npx prisma generate dev
-npm run dev
-```
+## Instalação
 
-## Acesse o Swagger
-- http://localhost:3434/docs
-# absolut-tycoon-api
+1.  Clone o repositório:
+    ```bash
+    git clone <url-do-repositorio>
+    cd absolut-tycoon-api
+    ```
+2.  Instale as dependências:
+    ```bash
+    pnpm install
+    ```
+3.  Configure as variáveis de ambiente:
+    *   Copie o arquivo `.env.example` (se existir) para `.env`.
+    *   Preencha as variáveis no arquivo `.env`, especialmente a `DATABASE_URL` e `SECRET_JWT`.
+    ```bash
+    cp .env.example .env
+    # Edite o .env com suas configurações
+    ```
+4.  Execute as migrações do Prisma para criar as tabelas no banco de dados:
+    ```bash
+    pnpm prisma migrate dev
+    ```
+    (Use `pnpm prisma migrate deploy` para ambientes de produção)
+5.  Gere o Prisma Client:
+    ```bash
+    pnpm prisma generate
+    ```
+
+## Rodando a API
+
+*   **Modo de Desenvolvimento (com hot-reload):**
+    ```bash
+    pnpm dev
+    ```
+    O servidor estará disponível nos endereços de rede locais informados no console (ex: `http://localhost:PORTA`, `http://192.168.X.X:PORTA`).
+
+*   **Modo de Produção:**
+    1.  Faça o build da aplicação:
+        ```bash
+        pnpm build
+        ```
+    2.  Inicie o servidor:
+        ```bash
+        pnpm start
+        ```
+
+## Documentação da API
+
+A documentação da API é gerada automaticamente usando Swagger e está disponível na rota `/docs` quando o servidor está rodando.
+
+Exemplo: `http://localhost:PORTA/docs`
+
+## Como Contribuir
+
+(Seção a ser definida, caso o projeto seja aberto a contribuições. Pode incluir informações sobre convenções de código, fluxo de pull requests, etc.)
